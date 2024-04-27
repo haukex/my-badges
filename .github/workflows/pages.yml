@@ -21,6 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # caching is important as the modules take quite a bit of time to compile
       - id: cache-perl-modules
         uses: actions/cache@v4
         with:
@@ -30,14 +31,14 @@ jobs:
         if: steps.cache-perl-modules.outputs.cache-hit != 'true'
         run: |
           mkdir -vp ~/perl5/bin
-          wget https://cpanmin.us -O ~/perl5/bin/cpanm
+          wget -nv https://cpanmin.us -O ~/perl5/bin/cpanm
           chmod -c 755 ~/perl5/bin/cpanm
           ~/perl5/bin/cpanm --local-lib ~/perl5 --installdeps .
       - id: pages
         uses: actions/configure-pages@v5
       - name: Build pages
         run: |
-          wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
+          wget -nv https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
           mkdir -vp out
           perl -I$HOME/perl5/lib/perl5 cpantesters.pl -o out -h index.html HAUKEX
       - uses: actions/upload-pages-artifact@v3
