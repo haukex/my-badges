@@ -19,7 +19,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          cpanm Badge::Simple File::Replace
+          curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+          cpanm --verbose Badge::Simple File::Replace
           wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
       - name: Setup Pages
         id: pages
