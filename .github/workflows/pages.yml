@@ -21,7 +21,8 @@ jobs:
         run: |
           mkdir -vp ~/perl5/bin
           wget https://cpanmin.us -O ~/perl5/bin/cpanm
-          cpanm --verbose --installdeps .
+          chmod -c 755 ~/perl5/bin/cpanm
+          ~/perl5/bin/cpanm --verbose --installdeps .
           wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
       - name: Setup Pages
         id: pages
