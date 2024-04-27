@@ -1,4 +1,5 @@
 # these are requirements of Badge::Simple, but we pin them for better caching support
+# (any changes to this file cause the GitHub Actions cache to be invalidated)
 requires 'Imager', '== 1.024';
 requires 'XML::LibXML', '== 2.0210';
 # for cpantesters.pl
