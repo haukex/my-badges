@@ -15,27 +15,29 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+      - id: cache-perl-modules
+        uses: actions/cache@v4
+        with:
+          path: ~/perl5
+          key: ${{ hashFiles('cpanfile') }}
       - name: Install dependencies
+        if: steps.cache-perl-modules.outputs.cache-hit != 'true'
         run: |
           mkdir -vp ~/perl5/bin
           wget https://cpanmin.us -O ~/perl5/bin/cpanm
           chmod -c 755 ~/perl5/bin/cpanm
-          ~/perl5/bin/cpanm --verbose --installdeps .
-          wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
-      - name: Setup Pages
-        id: pages
+          ~/perl5/bin/cpanm --local-lib ~/perl5 --installdeps .
+      - id: pages
         uses: actions/configure-pages@v5
-      - name: Build Pages
+      - name: Build pages
         run: |
+          wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
           mkdir -vp out
           perl -I$HOME/perl5/lib/perl5 cpantesters.pl -o out -h index.html HAUKEX
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: ./out
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
 
