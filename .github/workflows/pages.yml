@@ -1,0 +1,36 @@
+name: Generate Badges and Deploy to Pages
+
+on: push
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          cpanm Badge::Simple File::Replace
+          wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Build Pages
+        run: perl cpantesters.pl -o out -h index.html HAUKEX
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
