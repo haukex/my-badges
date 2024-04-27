@@ -19,8 +19,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Install dependencies
         run: |
-          curl -L https://cpanmin.us | perl - --sudo App::cpanminus
-          cpanm --sudo --verbose Badge::Simple File::Replace IO::Socket::SSL Net::SSLeay
+          curl -L https://cpanmin.us | perl - App::cpanminus
+          cpanm --verbose Badge::Simple File::Replace IO::Socket::SSL Net::SSLeay
           wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
       - name: Setup Pages
         id: pages
@@ -28,7 +28,7 @@ jobs:
       - name: Build Pages
         run: |
           mkdir -vp out
-          perl cpantesters.pl -o out -h index.html HAUKEX
+          perl -I$HOME/perl5/lib/perl5 cpantesters.pl -o out -h index.html HAUKEX
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
