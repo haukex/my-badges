@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: |
           curl -L https://cpanmin.us | perl - --sudo App::cpanminus
-          cpanm --verbose Badge::Simple File::Replace
+          cpanm --sudo --verbose Badge::Simple File::Replace
           wget https://raw.githubusercontent.com/haukex/Badge-Simple/master/misc/cpantesters.pl
       - name: Setup Pages
         id: pages
