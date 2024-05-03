@@ -38,7 +38,7 @@ jobs:
         uses: actions/configure-pages@v5
       - name: Build pages
         run: |
-          wget -nv https://raw.githubusercontent.com/haukex/Badge-Simple/7d8b2601/misc/cpantesters.pl
+          wget -nv https://raw.githubusercontent.com/haukex/Badge-Simple/0d9891f8/misc/cpantesters.pl
           mkdir -vp out
           perl -I$HOME/perl5/lib/perl5 cpantesters.pl -o out -h index.html HAUKEX
       - uses: actions/upload-pages-artifact@v3
